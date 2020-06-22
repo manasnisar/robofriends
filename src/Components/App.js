@@ -2,29 +2,30 @@ import React from 'react';
 import '../Styles/App.css';
 import "./Card";
 import CardList from "./CardList";
-import robots from "./robots";
 import Scroll from "./Scroll";
+import {RobotsContext} from "./RobotsContext";
+import {SearchContext} from "./SearchContext";
 import SearchBox from "./SearchBox";
-import { useState , useEffect } from "react";
+import { useEffect , useContext } from "react";
 import "tachyons";
 
 const App = () => {
 
-  const [data, setData] = useState(robots);
-  const [search, setSearch] = useState("");
+  const [robots, robotDispatch] = useContext(RobotsContext);
+  const [search, dispatch] = useContext(SearchContext);
 
   const onSearchChange = (event) =>{
-    setSearch(event.target.value);
+    dispatch(event.target.value);
   }
-  const filteredRobots = data.filter(robot =>{
+  const filteredRobots = robots.filter(robot =>{
     return robot.name.toLowerCase().includes(search.toLowerCase());
   })
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(respose => respose.json())
-    .then(users => setData(users));
-  })
+    .then(users => robotDispatch(users));
+  },[])
 
   return (
     <div className="tc">

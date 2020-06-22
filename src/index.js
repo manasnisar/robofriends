@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import {RobotsProvider} from './Components/RobotsContext';
+import {SearchProvider} from "./Components/SearchContext";
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RobotsProvider>
+      <SearchProvider>
+      <App />
+      </SearchProvider>
+    </RobotsProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
